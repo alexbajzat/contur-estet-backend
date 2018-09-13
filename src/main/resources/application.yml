@@ -1,0 +1,5 @@
+datasource:
+  params:
+    jdbcUrl: jdbc:mysql://localhost:3306/contur_estet
+    username: root
+    password: root
