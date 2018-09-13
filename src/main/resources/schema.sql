@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS account(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL,
+    password BINARY(60) NOT NULL,
+    account_type INT NOT NULL,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)^;
