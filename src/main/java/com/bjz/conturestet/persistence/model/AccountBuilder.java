@@ -6,9 +6,9 @@ import java.util.Objects;
 /**
  * Brought to life by bjz on 9/29/2018.
  */
-class AccountBuilder {
+public class AccountBuilder {
     private Integer id;
-    private String username;
+    private String email;
     private String password;
     private Account.AccountType accountType;
     private LocalDateTime createdOn;
@@ -16,13 +16,13 @@ class AccountBuilder {
 
     public Account build() {
         Objects.requireNonNull(id);
-        Objects.requireNonNull(username);
+        Objects.requireNonNull(email);
         Objects.requireNonNull(password);
         Objects.requireNonNull(accountType);
         Objects.requireNonNull(createdOn);
         Objects.requireNonNull(updatedOn);
 
-        return new Account(id, username, password, accountType, createdOn, updatedOn);
+        return new Account(id, email, password, accountType, createdOn, updatedOn);
     }
 
     public AccountBuilder setId(Integer id) {
@@ -30,8 +30,8 @@ class AccountBuilder {
         return this;
     }
 
-    public AccountBuilder setUsername(String username) {
-        this.username = username;
+    public AccountBuilder setEmail(String email) {
+        this.email = email;
         return this;
     }
 
