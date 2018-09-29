@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Brought to life by bjz on 9/29/2018.
  */
-class CreateAccountRequestBuilder {
+public class CreateAccountRequestBuilder {
     private String email;
     private String password;
     private Account.AccountType accountType;

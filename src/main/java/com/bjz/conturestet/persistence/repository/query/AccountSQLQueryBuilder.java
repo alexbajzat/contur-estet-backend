@@ -29,7 +29,7 @@ public class AccountSQLQueryBuilder {
                         .setQuery(insertQuery)
                         .addNamedParam(AccountSQLConstants.EMAIL_FIELD, r.getEmail())
                         .addNamedParam(AccountSQLConstants.PASSWORD_FIELD, r.getPassword())
-                        .addNamedParam(AccountSQLConstants.ACCOUNT_TYPE, r.getAccountType().name()))
+                        .addNamedParam(AccountSQLConstants.ACCOUNT_TYPE, r.getAccountType().getValue()))
                 .orElseThrow(() -> new InvalidArgumentException("No insert value present"));
 
         return builder.build();

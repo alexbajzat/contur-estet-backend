@@ -60,6 +60,10 @@ public class Account extends BaseModel {
             this.value = value;
         }
 
+        public Integer getValue() {
+            return value;
+        }
+
         public static AccountType getByValue(int value) {
             return Stream.of(AccountType.values())
                     .filter(type -> type.value.equals(value))
