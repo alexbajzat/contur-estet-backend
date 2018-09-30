@@ -1,47 +1,22 @@
 package com.bjz.conturestet.rest;
 
-import com.bjz.conturestet.exception.LoginException;
-import com.bjz.conturestet.exception.NotFoundException;
-import com.bjz.conturestet.exception.RegisterException;
 import com.bjz.conturestet.rest.response.APIError;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * Brought to life by bjz on 9/30/2018.
+ * Brought to life by bjz on 10/1/2018.
  */
-@ControllerAdvice
+@RestControllerAdvice
+@Order(value = 9999)
 public class GlobalExceptionHandler {
-    @ExceptionHandler(NotImplementedException.class)
-    public ResponseEntity<APIError> handleImplementationException(Exception e) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<APIError> handleAnyException(Exception e) {
         return new ResponseEntity<>(new APIError()
-                .setCode(APIError.ErrorCode.NOT_PERMITTED)
+                .setCode(APIError.ErrorCode.UNKNOWN)
                 .setMessage("Operation not supported"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    @ExceptionHandler(RegisterException.class)
-    public ResponseEntity<APIError> handleRegistrationException(Exception e) {
-        return new ResponseEntity<>(new APIError()
-                .setCode(APIError.ErrorCode.BAD_REGISTER)
-                .setMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<APIError> handleNotFoundException(Exception e) {
-        return new ResponseEntity<>(new APIError()
-                .setCode(APIError.ErrorCode.NOT_FOUND)
-                .setMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(LoginException.class)
-    public ResponseEntity<APIError> handleLoginException(Exception e) {
-        return new ResponseEntity<>(new APIError()
-                .setCode(APIError.ErrorCode.BAD_LOGIN)
-                .setMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-
 }

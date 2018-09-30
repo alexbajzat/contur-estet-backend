@@ -26,7 +26,7 @@ public class APIError {
     }
 
     public enum ErrorCode {
-        BAD_REGISTER(100), BAD_LOGIN(200), NOT_PERMITTED(300), NOT_FOUND(400);
+        BAD_REGISTER(100), BAD_LOGIN(200), NOT_PERMITTED(300), NOT_FOUND(400), UNKNOWN(500);
 
         int code;
 
