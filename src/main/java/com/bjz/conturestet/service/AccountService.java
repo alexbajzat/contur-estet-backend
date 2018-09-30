@@ -1,5 +1,6 @@
 package com.bjz.conturestet.service;
 
+import com.bjz.conturestet.exception.NotFoundException;
 import com.bjz.conturestet.exception.RegisterException;
 import com.bjz.conturestet.persistence.model.Account;
 import com.bjz.conturestet.persistence.repository.api.AccountRepository;
@@ -9,6 +10,7 @@ import com.bjz.conturestet.service.transformer.CreateAccountTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
@@ -25,7 +27,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public CompletableFuture<Account> createAccount(CreateAccountRequest request) {
+    public CompletableFuture<Account> createAccount(@NotNull CreateAccountRequest request) {
         CreateAccountTransformer transformer = new CreateAccountTransformer();
 
         //validate and transform data
@@ -41,9 +43,17 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public CompletableFuture<Void> deleteAccount(Integer id) {
+    public CompletableFuture<Void> deleteAccount(@NotNull Integer id) {
         Objects.requireNonNull(id);
         return accountRepository.deleteAccount(id);
+    }
+
+    @Override
+    public CompletableFuture<Account> findAccountByEmail(@NotNull String email) {
+        Objects.requireNonNull(email);
+        return accountRepository.findAccount(email)
+                .thenApply(account ->
+                        account.orElseThrow(() -> new NotFoundException(String.format("No user for email: {%s}", email))));
     }
 
 }

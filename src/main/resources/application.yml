@@ -21,3 +21,7 @@ server:
 #common config
 user.password.minSize: 6
 
+#security
+jwt:
+  secret: FIRUQ6kz07RpibBCfAJXMbyQAlzJahqMgfLIddD5sSfIJBwrwyKlJmJRvzrLkoN
+

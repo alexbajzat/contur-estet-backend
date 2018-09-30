@@ -1,5 +1,6 @@
 package com.bjz.conturestet.rest;
 
+import com.bjz.conturestet.exception.LoginException;
 import com.bjz.conturestet.exception.NotFoundException;
 import com.bjz.conturestet.exception.RegisterException;
 import com.bjz.conturestet.rest.response.APIError;
@@ -32,6 +33,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<APIError> handleNotFoundException(Exception e) {
         return new ResponseEntity<>(new APIError()
                 .setCode(APIError.ErrorCode.NOT_FOUND)
+                .setMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(LoginException.class)
+    public ResponseEntity<APIError> handleLoginException(Exception e) {
+        return new ResponseEntity<>(new APIError()
+                .setCode(APIError.ErrorCode.BAD_LOGIN)
                 .setMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
