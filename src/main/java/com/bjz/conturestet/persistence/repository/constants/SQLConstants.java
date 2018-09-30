@@ -13,6 +13,7 @@ public class SQLConstants {
     public static final String INSERT = " INSERT INTO ";
     public static final String VALUES = " VALUES ";
     public static final String ALIAS = " AS ";
+    public static final String DELETE = " DELETE ";
 
     public static String buildInsertStatement(String tableName, String... fields) {
         String fieldNames = Stream.of(fields)

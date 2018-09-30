@@ -11,4 +11,13 @@ public class AccountSQLConstants extends BaseConstants {
     public final static String PASSWORD_FIELD = "password";
     public final static String ACCOUNT_TYPE = "account_type";
 
+    public final static String[] ALL_FIELDS = {
+            ID_FIELD,
+            EMAIL_FIELD,
+            PASSWORD_FIELD,
+            ACCOUNT_TYPE,
+            CREATED_ON,
+            UPDATED_ON
+    };
+
 }

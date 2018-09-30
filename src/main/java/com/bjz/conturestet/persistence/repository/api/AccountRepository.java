@@ -3,6 +3,7 @@ package com.bjz.conturestet.persistence.repository.api;
 import com.bjz.conturestet.persistence.model.Account;
 import com.bjz.conturestet.persistence.request.CreateAccountRequest;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -14,4 +15,6 @@ public interface AccountRepository {
     CompletableFuture<Void> deleteAccount(Integer id);
 
     CompletableFuture<Account> findAccount(Integer id);
+
+    CompletableFuture<Optional<Account>> findAccount(String email);
 }

@@ -10,4 +10,6 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface IAccountService {
     CompletableFuture<Account> createAccount(CreateAccountRequest request);
+
+    CompletableFuture<Void> deleteAccount(Integer id);
 }

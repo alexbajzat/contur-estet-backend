@@ -1,10 +1,10 @@
 package com.bjz.conturestet.persistence.repository;
 
-import com.bjz.conturestet.exception.InvalidArgumentException;
 import com.bjz.conturestet.exception.NotFoundException;
 import com.bjz.conturestet.exception.SQLException;
 import com.bjz.conturestet.persistence.model.Account;
 import com.bjz.conturestet.persistence.repository.api.AccountRepository;
+import com.bjz.conturestet.persistence.repository.constants.AccountSQLConstants;
 import com.bjz.conturestet.persistence.repository.mapper.AccountMapper;
 import com.bjz.conturestet.persistence.repository.query.AccountSQLQueryBuilder;
 import com.bjz.conturestet.persistence.repository.query.SQLQuery;
@@ -12,6 +12,7 @@ import com.bjz.conturestet.persistence.request.CreateAccountRequest;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,13 +40,21 @@ public class AccountRepositorySQL extends BaseRepository implements AccountRepos
 
     @Override
     public CompletableFuture<Void> deleteAccount(Integer id) {
-        return null;
+        return CompletableFuture.supplyAsync(() -> {
+            SQLQuery deleteQuery = AccountSQLQueryBuilder.buildDeleteByField(AccountSQLConstants.ID_FIELD, id);
+
+            int update = namedJdbcTemplate.update(deleteQuery.getQuery(), deleteQuery.getNamedParams());
+            if (update == 0) {
+                throw new NotFoundException(String.format("User with id {%s} not found", id));
+            }
+            return null;
+        });
     }
 
     @Override
     public CompletableFuture<Account> findAccount(Integer id) {
         return CompletableFuture.supplyAsync(() -> {
-            SQLQuery findQuery = AccountSQLQueryBuilder.buildSelectByID(id);
+            SQLQuery findQuery = AccountSQLQueryBuilder.buildSelectByField(AccountSQLConstants.ID_FIELD, id);
             AccountMapper mapper = new AccountMapper();
             List<Account> accounts = namedJdbcTemplate.query(
                     findQuery.getQuery(),
@@ -56,6 +65,23 @@ public class AccountRepositorySQL extends BaseRepository implements AccountRepos
                 throw new NotFoundException(String.format("No account found for id: %d", id));
             }
             return accounts.get(0);
+        });
+    }
+
+    @Override
+    public CompletableFuture<Optional<Account>> findAccount(String email) {
+        return CompletableFuture.supplyAsync(() -> {
+            SQLQuery findQuery = AccountSQLQueryBuilder.buildSelectByField(AccountSQLConstants.EMAIL_FIELD, email);
+            AccountMapper mapper = new AccountMapper();
+            List<Account> accounts = namedJdbcTemplate.query(
+                    findQuery.getQuery(),
+                    findQuery.getNamedParams(),
+                    mapper);
+
+            if (accounts.isEmpty()) {
+                return Optional.empty();
+            }
+            return Optional.of(accounts.get(0));
         });
     }
 }

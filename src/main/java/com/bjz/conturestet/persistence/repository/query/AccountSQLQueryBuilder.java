@@ -35,7 +35,9 @@ public class AccountSQLQueryBuilder {
         return builder.build();
     }
 
-    public static SQLQuery buildSelectByID(Integer id) {
+    public static SQLQuery buildSelectByField(String fieldName, Object fieldValue) {
+        validateField(fieldName);
+
         String selectStatement = SQLConstants.buildSelectStatement(
                 AccountSQLConstants.TABLE_NAME,
                 AccountSQLConstants.ID_FIELD,
@@ -49,12 +51,39 @@ public class AccountSQLQueryBuilder {
         String where = String.format(
                 " %s %s = :%s ",
                 SQLConstants.WHERE,
-                AccountSQLConstants.ID_FIELD,
-                AccountSQLConstants.ID_FIELD);
+                fieldName,
+                fieldName);
         return SQLQuery.builder()
                 .setQuery(selectStatement + where)
-                .addNamedParam(AccountSQLConstants.ID_FIELD, id)
+                .addNamedParam(fieldName, fieldValue)
                 .build();
+    }
+
+    public static SQLQuery buildDeleteByField(String fieldName, Object fieldValue) {
+        validateField(fieldName);
+
+        String deleteQuery = String.format(
+                "%s %s %s %s %s = :%s",
+                SQLConstants.DELETE,
+                SQLConstants.FROM,
+                AccountSQLConstants.TABLE_NAME,
+                SQLConstants.WHERE,
+                fieldName,
+                fieldName);
+
+        return SQLQuery.builder()
+                .setQuery(deleteQuery)
+                .addNamedParam(fieldName, fieldValue)
+                .build();
+
+    }
+
+    private static void validateField(String fieldName) {
+        Stream.of(AccountSQLConstants.ALL_FIELDS)
+                .filter(field -> field.equals(fieldName))
+                .findFirst()
+                .orElseThrow(() -> new InvalidArgumentException(String.format("Request field {%s} is not in the fields list", fieldName)));
+
     }
 
 

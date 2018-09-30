@@ -11,3 +11,13 @@ spring:
   datasource:
     separator: ^;
     initialization-mode: always
+
+#server
+server:
+  servlet:
+    context-path: /conturestet
+  port: 8080
+
+#common config
+user.password.minSize: 6
+
