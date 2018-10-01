@@ -32,7 +32,7 @@ public class AccountRepositorySQL extends BaseRepository implements AccountRepos
             namedJdbcTemplate.update(insertQuery.getQuery(), insertQuery.getNamedParams(), keyHolder);
 
             return Optional.ofNullable(keyHolder.getKey())
-                    .orElseThrow(() -> new SQLException("Generated ID is not present"))
+                    .orElseThrow(() -> new SQLException("Generated ID is not present {account}"))
                     .intValue();
 
         }).thenCompose(this::findAccount);
@@ -45,7 +45,7 @@ public class AccountRepositorySQL extends BaseRepository implements AccountRepos
 
             int update = namedJdbcTemplate.update(deleteQuery.getQuery(), deleteQuery.getNamedParams());
             if (update == 0) {
-                throw new NotFoundException(String.format("User with id {%s} not found", id));
+                throw new NotFoundException(String.format("Account with id {%s} not found", id));
             }
             return null;
         });
