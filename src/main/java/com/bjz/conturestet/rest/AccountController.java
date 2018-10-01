@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * Brought to life by bjz on 9/30/2018.
  */
@@ -24,21 +26,19 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/account", method = RequestMethod.POST)
-    public ResponseEntity<AccountJsonResponse> createAccount(
+    public CompletableFuture<ResponseEntity<AccountJsonResponse>> createAccount(
             @RequestBody CreateAccountJsonRequest request) {
 
         // the type you are given upon registration
         request.setAccountType(Account.AccountType.REGULAR);
         return accountService.createAccount(AccountConverter.mapFromJSON(request))
                 .thenApply(AccountConverter::mapToJSON)
-                .thenApply(response -> new ResponseEntity<>(response, HttpStatus.CREATED))
-                .join();
+                .thenApply(response -> new ResponseEntity<>(response, HttpStatus.CREATED));
     }
 
     @RequestMapping(value = "/account", method = RequestMethod.DELETE)
-    public ResponseEntity deleteAccount(@RequestParam(value = "ID") Integer id) {
+    public CompletableFuture<ResponseEntity> deleteAccount(@RequestParam(value = "ID") Integer id) {
         return accountService.deleteAccount(id)
-                .thenApply(empty -> new ResponseEntity(HttpStatus.OK))
-                .join();
+                .thenApply(empty -> new ResponseEntity(HttpStatus.OK));
     }
 }

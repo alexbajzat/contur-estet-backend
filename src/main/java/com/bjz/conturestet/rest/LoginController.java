@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * Brought to life by bjz on 9/30/2018.
  */
@@ -26,9 +28,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestBody LoginAccountJsonRequest request) {
+    public CompletableFuture<ResponseEntity<String>> login(@RequestBody LoginAccountJsonRequest request) {
         return loginService.doLogin(LoginAccountConverter.fromJson(request))
-                .thenApply(token -> new ResponseEntity<>(token, HttpStatus.OK))
-                .join();
+                .thenApply(token -> new ResponseEntity<>(token, HttpStatus.OK));
     }
 }
