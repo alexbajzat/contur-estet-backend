@@ -5,10 +5,7 @@ import com.bjz.conturestet.persistence.repository.constants.AccountSQLConstants;
 import com.bjz.conturestet.persistence.repository.constants.SQLConstants;
 import com.bjz.conturestet.persistence.request.CreateAccountRequest;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -44,8 +41,8 @@ public class AccountSQLQueryBuilder {
                 AccountSQLConstants.EMAIL_FIELD,
                 AccountSQLConstants.PASSWORD_FIELD,
                 AccountSQLConstants.ACCOUNT_TYPE,
-                AccountSQLConstants.CREATED_ON,
-                AccountSQLConstants.UPDATED_ON
+                AccountSQLConstants.CREATED_ON_FIELD,
+                AccountSQLConstants.UPDATED_ON_FIELD
         );
 
         String where = String.format(

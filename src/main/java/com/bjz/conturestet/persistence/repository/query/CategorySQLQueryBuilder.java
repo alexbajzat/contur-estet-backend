@@ -35,8 +35,8 @@ public class CategorySQLQueryBuilder {
                 CategorySQLConstants.TABLE_NAME,
                 CategorySQLConstants.ID_FIELD,
                 CategorySQLConstants.NAME_FIELD,
-                CategorySQLConstants.CREATED_ON,
-                CategorySQLConstants.UPDATED_ON
+                CategorySQLConstants.CREATED_ON_FIELD,
+                CategorySQLConstants.UPDATED_ON_FIELD
         );
 
         String where = String.format(

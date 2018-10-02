@@ -56,13 +56,12 @@ public class CategoryRepositorySQL extends BaseRepository implements CategoryRep
 
     @Override
     public CompletableFuture<Void> deleteCategory(@NotNull Integer id) {
-        return CompletableFuture.supplyAsync(() -> {
+        return CompletableFuture.runAsync(() -> {
             SQLQuery deleteQuery = CategorySQLQueryBuilder.buildDeleteByField(CategorySQLConstants.ID_FIELD, id);
             int update = namedJdbcTemplate.update(deleteQuery.getQuery(), deleteQuery.getNamedParams());
             if (update == 0) {
                 throw new NotFoundException(String.format("Category with id {%s} not found", id));
             }
-            return null;
         });
     }
 }

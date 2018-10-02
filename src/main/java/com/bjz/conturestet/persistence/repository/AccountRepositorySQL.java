@@ -40,14 +40,13 @@ public class AccountRepositorySQL extends BaseRepository implements AccountRepos
 
     @Override
     public CompletableFuture<Void> deleteAccount(Integer id) {
-        return CompletableFuture.supplyAsync(() -> {
+        return CompletableFuture.runAsync(() -> {
             SQLQuery deleteQuery = AccountSQLQueryBuilder.buildDeleteByField(AccountSQLConstants.ID_FIELD, id);
 
             int update = namedJdbcTemplate.update(deleteQuery.getQuery(), deleteQuery.getNamedParams());
             if (update == 0) {
                 throw new NotFoundException(String.format("Account with id {%s} not found", id));
             }
-            return null;
         });
     }
 

@@ -3,7 +3,6 @@ package com.bjz.conturestet.persistence.repository.mapper;
 import com.bjz.conturestet.persistence.model.Account;
 import com.bjz.conturestet.persistence.repository.constants.AccountSQLConstants;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.sql.ResultSet;
@@ -21,8 +20,8 @@ public class AccountMapper implements RowMapper<Account> {
                 .setAccountType(Account.AccountType.getByValue(resultSet.getInt(AccountSQLConstants.ACCOUNT_TYPE)))
                 .setPassword(resultSet.getString(AccountSQLConstants.PASSWORD_FIELD))
                 .setEmail(resultSet.getString(AccountSQLConstants.EMAIL_FIELD))
-                .setCreatedOn(resultSet.getTimestamp(AccountSQLConstants.CREATED_ON).toLocalDateTime())
-                .setUpdatedOn(resultSet.getTimestamp(AccountSQLConstants.UPDATED_ON).toLocalDateTime())
+                .setCreatedOn(resultSet.getTimestamp(AccountSQLConstants.CREATED_ON_FIELD).toLocalDateTime())
+                .setUpdatedOn(resultSet.getTimestamp(AccountSQLConstants.UPDATED_ON_FIELD).toLocalDateTime())
                 .build();
     }
 }

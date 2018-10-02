@@ -18,8 +18,8 @@ public class CategoryMapper implements RowMapper<Category> {
         return Category.builder()
                 .setId(resultSet.getInt(CategorySQLConstants.ID_FIELD))
                 .setName(resultSet.getString(CategorySQLConstants.NAME_FIELD))
-                .setCreatedOn(resultSet.getTimestamp(CategorySQLConstants.CREATED_ON).toLocalDateTime())
-                .setUpdatedOn(resultSet.getTimestamp(CategorySQLConstants.UPDATED_ON).toLocalDateTime())
+                .setCreatedOn(resultSet.getTimestamp(CategorySQLConstants.CREATED_ON_FIELD).toLocalDateTime())
+                .setUpdatedOn(resultSet.getTimestamp(CategorySQLConstants.UPDATED_ON_FIELD).toLocalDateTime())
                 .build();
     }
 }
