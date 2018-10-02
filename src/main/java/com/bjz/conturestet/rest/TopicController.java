@@ -38,6 +38,13 @@ public class TopicController {
 
     }
 
+    @RequestMapping(value = "/topic", method = RequestMethod.DELETE)
+    public CompletableFuture<ResponseEntity<Void>> deleteTopic(@RequestParam(value = "ID") Integer id) {
+        return topicService.deleteTopic(id)
+                .thenApply(empty -> new ResponseEntity<>(HttpStatus.OK));
+
+    }
+
     @RequestMapping(value = "/topics/all", method = RequestMethod.GET)
     public CompletableFuture<ResponseEntity<List<TopicJsonResponse>>> findAll() {
         return topicService.findTopics()
