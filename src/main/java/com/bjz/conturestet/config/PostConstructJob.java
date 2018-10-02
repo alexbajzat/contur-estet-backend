@@ -6,6 +6,7 @@ import com.bjz.conturestet.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,9 @@ public class PostConstructJob {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostConstructJob.class);
     private final AccountService accountService;
 
+    @Value("${admin.email}")
+    private String adminEmail;
+
     @Autowired
     public PostConstructJob(AccountService accountService) {
         this.accountService = accountService;
@@ -26,7 +30,7 @@ public class PostConstructJob {
     @PostConstruct
     public void generateAdminAccount() {
         CreateAccountRequest admin = CreateAccountRequest.builder()
-                .setEmail("admin@admin.com")
+                .setEmail(adminEmail)
                 .setPassword("parola123")
                 .setAccountType(Account.AccountType.ADMIN)
                 .build();
