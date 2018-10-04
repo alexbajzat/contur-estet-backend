@@ -8,7 +8,7 @@ import com.bjz.conturestet.persistence.repository.constants.TopicSQLConstants;
 import com.bjz.conturestet.persistence.repository.mapper.TopicMapper;
 import com.bjz.conturestet.persistence.repository.query.SQLQuery;
 import com.bjz.conturestet.persistence.repository.query.TopicSQLQueryBuilder;
-import com.bjz.conturestet.persistence.request.CreateTopicRequest;
+import com.bjz.conturestet.service.request.CreateTopicRequest;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;

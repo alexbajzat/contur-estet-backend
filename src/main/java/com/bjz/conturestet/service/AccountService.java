@@ -4,7 +4,7 @@ import com.bjz.conturestet.exception.NotFoundException;
 import com.bjz.conturestet.exception.RegisterException;
 import com.bjz.conturestet.persistence.model.Account;
 import com.bjz.conturestet.persistence.repository.api.AccountRepository;
-import com.bjz.conturestet.persistence.request.CreateAccountRequest;
+import com.bjz.conturestet.service.request.CreateAccountRequest;
 import com.bjz.conturestet.service.api.IAccountService;
 import com.bjz.conturestet.service.transformer.CreateAccountTransformer;
 import org.springframework.beans.factory.annotation.Autowired;

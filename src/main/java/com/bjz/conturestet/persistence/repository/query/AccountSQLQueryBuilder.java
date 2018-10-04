@@ -3,7 +3,7 @@ package com.bjz.conturestet.persistence.repository.query;
 import com.bjz.conturestet.exception.InvalidArgumentException;
 import com.bjz.conturestet.persistence.repository.constants.AccountSQLConstants;
 import com.bjz.conturestet.persistence.repository.constants.SQLConstants;
-import com.bjz.conturestet.persistence.request.CreateAccountRequest;
+import com.bjz.conturestet.service.request.CreateAccountRequest;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -35,7 +35,26 @@ public class AccountSQLQueryBuilder {
     public static SQLQuery buildSelectByField(String fieldName, Object fieldValue) {
         validateField(fieldName);
 
-        String selectStatement = SQLConstants.buildSelectStatement(
+
+        return SQLQuery.builder()
+                .setQuery(buildSelect() + SQLConstants.buildWhere(fieldName, fieldValue))
+                .addNamedParam(fieldName, fieldValue)
+                .build();
+    }
+
+    public static SQLQuery buildDeleteByField(String fieldName, Object fieldValue) {
+        validateField(fieldName);
+
+        return SQLQuery.builder()
+                .setQuery(SQLConstants.buildDelete(AccountSQLConstants.TABLE_NAME)
+                        + SQLConstants.buildWhere(fieldName, fieldValue))
+                .addNamedParam(fieldName, fieldValue)
+                .build();
+
+    }
+
+    private static String buildSelect() {
+        return SQLConstants.buildSelectStatement(
                 AccountSQLConstants.TABLE_NAME,
                 AccountSQLConstants.ID_FIELD,
                 AccountSQLConstants.EMAIL_FIELD,
@@ -44,34 +63,6 @@ public class AccountSQLQueryBuilder {
                 AccountSQLConstants.CREATED_ON_FIELD,
                 AccountSQLConstants.UPDATED_ON_FIELD
         );
-
-        String where = String.format(
-                " %s %s = :%s ",
-                SQLConstants.WHERE,
-                fieldName,
-                fieldName);
-        return SQLQuery.builder()
-                .setQuery(selectStatement + where)
-                .addNamedParam(fieldName, fieldValue)
-                .build();
-    }
-
-    public static SQLQuery buildDeleteByField(String fieldName, Object fieldValue) {
-        validateField(fieldName);
-
-        String deleteQuery = String.format(
-                "%s %s %s %s %s = :%s",
-                SQLConstants.DELETE,
-                SQLConstants.FROM,
-                AccountSQLConstants.TABLE_NAME,
-                SQLConstants.WHERE,
-                fieldName,
-                fieldName);
-
-        return SQLQuery.builder()
-                .setQuery(deleteQuery)
-                .addNamedParam(fieldName, fieldValue)
-                .build();
 
     }
 

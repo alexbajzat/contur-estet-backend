@@ -8,15 +8,17 @@ import com.bjz.conturestet.persistence.repository.constants.CategorySQLConstants
 import com.bjz.conturestet.persistence.repository.mapper.CategoryMapper;
 import com.bjz.conturestet.persistence.repository.query.CategorySQLQueryBuilder;
 import com.bjz.conturestet.persistence.repository.query.SQLQuery;
-import com.bjz.conturestet.persistence.request.CreateCategoryRequest;
+import com.bjz.conturestet.service.request.CreateCategoryRequest;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 /**
  * Brought to life by bjz on 10/1/2018.
@@ -63,5 +65,13 @@ public class CategoryRepositorySQL extends BaseRepository implements CategoryRep
                 throw new NotFoundException(String.format("Category with id {%s} not found", id));
             }
         });
+    }
+
+    @Override
+    public CompletableFuture<Stream<Category>> findAll() {
+        return CompletableFuture.supplyAsync(() -> {
+            SQLQuery selectQuery = CategorySQLQueryBuilder.buildSelectAllStatement();
+            return namedJdbcTemplate.query(selectQuery.getQuery(), new CategoryMapper());
+        }).thenApply(Collection::stream);
     }
 }

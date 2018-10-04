@@ -1,5 +1,6 @@
 package com.bjz.conturestet.persistence.repository.constants;
 
+import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,5 +58,27 @@ public class SQLConstants {
         return String.format("%s IN (:%s)", field, namedListParam);
     }
 
+    public static String buildWhere(String fieldName, Object fieldValue) {
+        String conditionStatement = "";
+        //if field is scalar ( = ) or if field is vector ( IN )
+        if (fieldValue instanceof Collection) {
+            conditionStatement = SQLConstants.buildFieldInStatement(fieldName, fieldName);
+        } else {
+            conditionStatement = SQLConstants.buildEqualWithParamStatement(fieldName, fieldName);
+        }
 
+        return String.format(
+                " %s %s ",
+                SQLConstants.WHERE,
+                conditionStatement);
+    }
+
+    public static String buildDelete(String tableName) {
+        return String.format(
+                "%s %s %s",
+                SQLConstants.DELETE,
+                SQLConstants.FROM,
+                tableName);
+
+    }
 }

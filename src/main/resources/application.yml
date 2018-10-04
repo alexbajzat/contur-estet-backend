@@ -17,11 +17,16 @@ server:
   servlet:
     context-path: /conturestet
   port: 8080
+storage:
+  base:
+    dir: C:\Users\bjz\Pictures\contur-estet-storage
 
 #common config
 user.password.minSize: 6
 admin:
   email: admin@admin.com
+
+
 
 
 #security

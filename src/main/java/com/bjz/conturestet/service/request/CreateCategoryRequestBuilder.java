@@ -1,4 +1,4 @@
-package com.bjz.conturestet.persistence.request;
+package com.bjz.conturestet.service.request;
 
 import com.bjz.conturestet.exception.InvalidArgumentException;
 import org.springframework.util.StringUtils;

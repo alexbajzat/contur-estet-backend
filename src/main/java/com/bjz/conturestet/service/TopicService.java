@@ -3,7 +3,7 @@ package com.bjz.conturestet.service;
 import com.bjz.conturestet.exception.InvalidArgumentException;
 import com.bjz.conturestet.persistence.model.Topic;
 import com.bjz.conturestet.persistence.repository.api.TopicRepository;
-import com.bjz.conturestet.persistence.request.CreateTopicRequest;
+import com.bjz.conturestet.service.request.CreateTopicRequest;
 import com.bjz.conturestet.service.api.ITopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

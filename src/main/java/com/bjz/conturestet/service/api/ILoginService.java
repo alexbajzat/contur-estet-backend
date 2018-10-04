@@ -1,6 +1,6 @@
 package com.bjz.conturestet.service.api;
 
-import com.bjz.conturestet.persistence.request.LoginAccountRequest;
+import com.bjz.conturestet.service.request.LoginAccountRequest;
 
 import java.util.concurrent.CompletableFuture;
 

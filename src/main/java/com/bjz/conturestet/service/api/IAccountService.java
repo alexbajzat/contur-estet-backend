@@ -1,7 +1,7 @@
 package com.bjz.conturestet.service.api;
 
 import com.bjz.conturestet.persistence.model.Account;
-import com.bjz.conturestet.persistence.request.CreateAccountRequest;
+import com.bjz.conturestet.service.request.CreateAccountRequest;
 
 import javax.validation.constraints.NotNull;
 import java.util.concurrent.CompletableFuture;

@@ -1,7 +1,7 @@
 package com.bjz.conturestet.rest.converter;
 
 import com.bjz.conturestet.persistence.model.Account;
-import com.bjz.conturestet.persistence.request.CreateAccountRequest;
+import com.bjz.conturestet.service.request.CreateAccountRequest;
 import com.bjz.conturestet.rest.request.CreateAccountJsonRequest;
 import com.bjz.conturestet.rest.response.AccountJsonResponse;
 

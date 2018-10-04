@@ -1,7 +1,7 @@
 package com.bjz.conturestet.persistence.repository.api;
 
 import com.bjz.conturestet.persistence.model.Topic;
-import com.bjz.conturestet.persistence.request.CreateTopicRequest;
+import com.bjz.conturestet.service.request.CreateTopicRequest;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

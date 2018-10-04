@@ -8,11 +8,10 @@ import com.bjz.conturestet.persistence.repository.constants.AccountSQLConstants;
 import com.bjz.conturestet.persistence.repository.mapper.AccountMapper;
 import com.bjz.conturestet.persistence.repository.query.AccountSQLQueryBuilder;
 import com.bjz.conturestet.persistence.repository.query.SQLQuery;
-import com.bjz.conturestet.persistence.request.CreateAccountRequest;
+import com.bjz.conturestet.service.request.CreateAccountRequest;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.Optional;

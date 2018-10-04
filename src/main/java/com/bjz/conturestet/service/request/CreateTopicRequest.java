@@ -1,4 +1,4 @@
-package com.bjz.conturestet.persistence.request;
+package com.bjz.conturestet.service.request;
 
 /**
  * Brought to life by bjz on 10/2/2018.

@@ -1,6 +1,6 @@
 package com.bjz.conturestet.rest.converter;
 
-import com.bjz.conturestet.persistence.request.LoginAccountRequest;
+import com.bjz.conturestet.service.request.LoginAccountRequest;
 import com.bjz.conturestet.rest.request.LoginAccountJsonRequest;
 
 /**

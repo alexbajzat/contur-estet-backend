@@ -1,7 +1,7 @@
 package com.bjz.conturestet.config;
 
 import com.bjz.conturestet.persistence.model.Account;
-import com.bjz.conturestet.persistence.request.CreateAccountRequest;
+import com.bjz.conturestet.service.request.CreateAccountRequest;
 import com.bjz.conturestet.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

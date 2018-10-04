@@ -1,8 +1,7 @@
 package com.bjz.conturestet.service;
 
 import com.bjz.conturestet.exception.LoginException;
-import com.bjz.conturestet.exception.NotFoundException;
-import com.bjz.conturestet.persistence.request.LoginAccountRequest;
+import com.bjz.conturestet.service.request.LoginAccountRequest;
 import com.bjz.conturestet.service.api.ILoginService;
 import com.bjz.conturestet.utils.PasswordUtils;
 import com.bjz.conturestet.utils.TokenUtils;

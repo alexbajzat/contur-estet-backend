@@ -2,27 +2,30 @@ package com.bjz.conturestet.persistence.repository.query;
 
 import com.bjz.conturestet.exception.InvalidArgumentException;
 import com.bjz.conturestet.persistence.repository.constants.CategorySQLConstants;
+import com.bjz.conturestet.persistence.repository.constants.ResourceSQLConstants;
 import com.bjz.conturestet.persistence.repository.constants.SQLConstants;
 import com.bjz.conturestet.service.request.CreateCategoryRequest;
+import com.bjz.conturestet.service.request.CreateResourceRequest;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Brought to life by bjz on 10/1/2018.
+ * Brought to life by bjz on 10/4/2018.
  */
-public class CategorySQLQueryBuilder {
-
-    public static SQLQuery buildInsertQuery(CreateCategoryRequest request) {
+public class ResourceSQLQueryBuilder {
+    public static SQLQuery buildInsertQuery(CreateResourceRequest request) {
         String insertQuery = SQLConstants.buildInsertStatement(
-                CategorySQLConstants.TABLE_NAME,
-                CategorySQLConstants.NAME_FIELD
+                ResourceSQLConstants.TABLE_NAME,
+                ResourceSQLConstants.NAME_FIELD,
+                ResourceSQLConstants.EXTENSION_FIELD
         );
 
         SQLQueryBuilder builder = Optional.of(request)
                 .map(r -> SQLQuery.builder()
                         .setQuery(insertQuery)
-                        .addNamedParam(CategorySQLConstants.NAME_FIELD, r.getName())
+                        .addNamedParam(ResourceSQLConstants.NAME_FIELD, r.getName())
+                        .addNamedParam(ResourceSQLConstants.EXTENSION_FIELD, r.getType().getExtension())
                 )
                 .orElseThrow(() -> new InvalidArgumentException("No insert value present"));
 
@@ -42,7 +45,8 @@ public class CategorySQLQueryBuilder {
         validateField(fieldName);
 
         return SQLQuery.builder()
-                .setQuery(SQLConstants.buildDelete(CategorySQLConstants.TABLE_NAME) + SQLConstants.buildWhere(fieldName, fieldValue))
+                .setQuery(SQLConstants.buildDelete(ResourceSQLConstants.TABLE_NAME)
+                        + SQLConstants.buildWhere(fieldName, fieldValue))
                 .addNamedParam(fieldName, fieldValue)
                 .build();
 
@@ -56,19 +60,19 @@ public class CategorySQLQueryBuilder {
 
     private static String buildSelect() {
         return SQLConstants.buildSelectStatement(
-                CategorySQLConstants.TABLE_NAME,
-                CategorySQLConstants.ID_FIELD,
-                CategorySQLConstants.NAME_FIELD,
-                CategorySQLConstants.CREATED_ON_FIELD,
-                CategorySQLConstants.UPDATED_ON_FIELD
+                ResourceSQLConstants.TABLE_NAME,
+                ResourceSQLConstants.ID_FIELD,
+                ResourceSQLConstants.NAME_FIELD,
+                ResourceSQLConstants.EXTENSION_FIELD,
+                ResourceSQLConstants.CREATED_ON_FIELD,
+                ResourceSQLConstants.UPDATED_ON_FIELD
         );
     }
 
     private static void validateField(String fieldName) {
-        Stream.of(CategorySQLConstants.ALL_FIELDS)
+        Stream.of(ResourceSQLConstants.ALL_FIELDS)
                 .filter(field -> field.equals(fieldName))
                 .findFirst()
                 .orElseThrow(() -> new InvalidArgumentException(String.format("Request field {%s} is not in the fields list", fieldName)));
-
     }
 }

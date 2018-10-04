@@ -1,13 +1,11 @@
 package com.bjz.conturestet.rest.converter;
 
 import com.bjz.conturestet.persistence.model.Topic;
-import com.bjz.conturestet.persistence.request.CreateTopicRequest;
-import com.bjz.conturestet.rest.request.CreateCategoryJsonRequest;
+import com.bjz.conturestet.service.request.CreateTopicRequest;
 import com.bjz.conturestet.rest.request.CreateTopicJsonRequest;
 import com.bjz.conturestet.rest.response.TopicJsonResponse;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Brought to life by bjz on 10/2/2018.
@@ -30,9 +28,7 @@ public class TopicConverter {
                 .build();
     }
 
-    public static List<TopicJsonResponse> toJson(List<Topic> topics) {
-        return topics.stream()
-                .map(TopicConverter::toJson)
-                .collect(Collectors.toList());
+    public static Stream<TopicJsonResponse> toJson(Stream<Topic> topics) {
+        return topics.map(TopicConverter::toJson);
     }
 }

@@ -1,7 +1,7 @@
 package com.bjz.conturestet.service.transformer;
 
 import com.bjz.conturestet.exception.InvalidArgumentException;
-import com.bjz.conturestet.persistence.request.CreateAccountRequest;
+import com.bjz.conturestet.service.request.CreateAccountRequest;
 import com.bjz.conturestet.utils.CommonUtils;
 import com.bjz.conturestet.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Value;

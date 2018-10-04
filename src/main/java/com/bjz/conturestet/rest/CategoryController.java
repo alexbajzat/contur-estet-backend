@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * Brought to life by bjz on 10/1/2018.
@@ -37,6 +39,14 @@ public class CategoryController {
             @RequestParam(value = "ID") Integer id) {
         return categoryService.deleteCategory(id)
                 .thenApply(empty -> new ResponseEntity<Void>(HttpStatus.OK));
+    }
+
+    @RequestMapping(value = "/categories", method = RequestMethod.GET)
+    public CompletableFuture<ResponseEntity<List<CategoryJsonResponse>>> findAllCategories() {
+        return categoryService.findCategories()
+                .thenApply(CategoryConverter::mapToJson)
+                .thenApply(json -> json.collect(Collectors.toList()))
+                .thenApply(json -> new ResponseEntity<>(json, HttpStatus.OK));
     }
 }
 

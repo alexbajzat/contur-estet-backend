@@ -4,9 +4,8 @@ import com.bjz.conturestet.exception.InvalidArgumentException;
 import com.bjz.conturestet.persistence.repository.constants.CategorySQLConstants;
 import com.bjz.conturestet.persistence.repository.constants.SQLConstants;
 import com.bjz.conturestet.persistence.repository.constants.TopicSQLConstants;
-import com.bjz.conturestet.persistence.request.CreateTopicRequest;
+import com.bjz.conturestet.service.request.CreateTopicRequest;
 
-import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,7 +35,7 @@ public class TopicSQLQueryBuilder {
         validateField(fieldName);
 
         return SQLQuery.builder()
-                .setQuery(buildSelectAll() + buildWhere(fieldName, fieldValue))
+                .setQuery(buildSelectAll() + SQLConstants.buildWhere(fieldName, fieldValue))
                 .addNamedParam(fieldName, fieldValue)
                 .build();
     }
@@ -56,7 +55,7 @@ public class TopicSQLQueryBuilder {
                 SQLConstants.DELETE,
                 SQLConstants.FROM,
                 TopicSQLConstants.TABLE_NAME,
-                buildWhere(fieldName, fieldValue));
+                SQLConstants.buildWhere(fieldName, fieldValue));
 
         return SQLQuery.builder()
                 .setQuery(deleteQuery)
@@ -82,20 +81,6 @@ public class TopicSQLQueryBuilder {
 
     }
 
-    private static String buildWhere(String fieldName, Object fieldValue) {
-        String conditionStatement = "";
-        //if field is scalar ( = ) or if field is vector ( IN )
-        if (fieldValue instanceof Collection) {
-            conditionStatement = SQLConstants.buildFieldInStatement(TopicSQLConstants.ID_FIELD, TopicSQLConstants.ID_FIELD);
-        } else {
-            conditionStatement = SQLConstants.buildEqualWithParamStatement(TopicSQLConstants.ID_FIELD, TopicSQLConstants.ID_FIELD);
-        }
-
-        return String.format(
-                " %s %s ",
-                SQLConstants.WHERE,
-                conditionStatement);
-    }
 
     private static void validateField(String fieldName) {
         Stream.of(TopicSQLConstants.ALL_FIELDS)
