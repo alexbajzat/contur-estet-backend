@@ -30,15 +30,15 @@ public class LocalFileService implements IFileService {
     }
 
     @Override
-    public CompletableFuture<Void> saveFile(
+    public CompletableFuture<Resource> saveFile(
             @NotNull InputStream fileStream,
             @NotNull Resource resource) {
 
-        return CompletableFuture.runAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
+            String resourceID = buildFileName(resource);
             String formattedName = FileSystemUtils.buildFilePath(
                     storageURL,
-                    buildFileName(resource),
-                    resource.getType().getExtension());
+                    resourceID);
             File file = new File(formattedName);
 
             try {
@@ -46,6 +46,15 @@ public class LocalFileService implements IFileService {
             } catch (IOException e) {
                 throw new FileSystemIOException("Can't write file input stream to file");
             }
+            //build resource url
+            return Resource.builder()
+                    .setId(resource.getId())
+                    .setName(resource.getName())
+                    .setExtension(resource.getType())
+                    .setUrl(resourceID)
+                    .setCreatedOn(resource.getCreatedOn())
+                    .setUpdatedOn(resource.getUpdatedOn())
+                    .build();
         });
     }
 
@@ -58,6 +67,6 @@ public class LocalFileService implements IFileService {
     }
 
     private static String buildFileName(Resource resource) {
-        return String.valueOf(resource.getId());
+        return String.format("%s-%s%s", resource.getName(), resource.getId(), resource.getType().getExtension());
     }
 }

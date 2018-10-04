@@ -3,6 +3,7 @@ package com.bjz.conturestet.persistence.model;
 import com.bjz.conturestet.exception.InvalidArgumentException;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -12,11 +13,13 @@ public class Resource extends BaseModel {
     private final Integer id;
     private final String name;
     private final Type type;
+    private final String url;
 
 
-    Resource(Integer id, String name, Type type, LocalDateTime createdOn, LocalDateTime updatedOn) {
+    Resource(Integer id, String name, Type type, String url, LocalDateTime createdOn, LocalDateTime updatedOn) {
         super(createdOn, updatedOn);
         this.name = name;
+        this.url = url;
         this.type = type;
         this.id = id;
     }
@@ -35,6 +38,10 @@ public class Resource extends BaseModel {
 
     public Integer getId() {
         return id;
+    }
+
+    public Optional<String> getUrl() {
+        return Optional.ofNullable(url);
     }
 
     public enum Type {

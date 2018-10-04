@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/categories", "/api/topics", "/api/topics/all").permitAll()
+                .antMatchers(HttpMethod.GET, "/images/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/account").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -49,5 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationTokenProvider authenticationProvider() {
         return new AuthenticationTokenProvider();
     }
+
 
 }

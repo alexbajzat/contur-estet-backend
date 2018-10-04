@@ -40,8 +40,7 @@ public class ResourceController {
         return resourceService.createResource(request)
                 .thenCompose(resource -> {
                     try {
-                        return fileService.saveFile(fileRequest.getInputStream(), resource)
-                                .thenApply(empty -> resource);
+                        return fileService.saveFile(fileRequest.getInputStream(), resource);
                     } catch (IOException e) {
                         throw new FileSystemIOException("Can't write file");
                     }

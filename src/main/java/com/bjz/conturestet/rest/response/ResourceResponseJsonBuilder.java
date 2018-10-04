@@ -11,6 +11,7 @@ import java.util.Objects;
 public class ResourceResponseJsonBuilder {
     private Integer id;
     private String name;
+    private String url;
     private Resource.Type type;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
@@ -25,7 +26,7 @@ public class ResourceResponseJsonBuilder {
         Objects.requireNonNull(createdOn);
         Objects.requireNonNull(updatedOn);
 
-        return new ResourceJsonResponse(id, name, type, createdOn, updatedOn);
+        return new ResourceJsonResponse(id, name, url, type, createdOn, updatedOn);
     }
 
     public ResourceResponseJsonBuilder setId(Integer id) {
@@ -35,6 +36,11 @@ public class ResourceResponseJsonBuilder {
 
     public ResourceResponseJsonBuilder setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public ResourceResponseJsonBuilder setUrl(String url) {
+        this.url = url;
         return this;
     }
 

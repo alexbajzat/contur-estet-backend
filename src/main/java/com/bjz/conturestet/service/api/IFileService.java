@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
  * Brought to life by bjz on 10/4/2018.
  */
 public interface IFileService {
-    CompletableFuture<Void> saveFile(@NotNull InputStream fileStream, @NotNull Resource resource) throws IOException;
+    CompletableFuture<Resource> saveFile(@NotNull InputStream fileStream, @NotNull Resource resource) throws IOException;
 
     CompletableFuture<Void> deleteFile(@NotNull String fileName);
 }
