@@ -11,4 +11,12 @@ public class FileSystemUtils {
     public static String buildFilePath(String path, String fileName) {
         return String.format("%s/%s", path, fileName);
     }
+
+    /**
+     * @param name file name containing extension
+     * @return file without any extensions
+     */
+    public static String removeExtension(String name) {
+        return name.split(".")[0];
+    }
 }

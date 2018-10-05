@@ -9,6 +9,7 @@ public class ResourceSQLConstants {
     public final static String ID_FIELD = TABLE_NAME + ".id";
     public final static String NAME_FIELD = TABLE_NAME + ".name";
     public final static String EXTENSION_FIELD = TABLE_NAME + ".extension";
+    public final static String ENDPOINT_FIELD = TABLE_NAME + ".endpoint";
     public final static String CREATED_ON_FIELD = TABLE_NAME + ".created_on";
     public final static String UPDATED_ON_FIELD = TABLE_NAME + ".updated_on";
 
@@ -16,6 +17,7 @@ public class ResourceSQLConstants {
             ID_FIELD,
             NAME_FIELD,
             EXTENSION_FIELD,
+            ENDPOINT_FIELD,
             CREATED_ON_FIELD,
             UPDATED_ON_FIELD
     };

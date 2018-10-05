@@ -7,6 +7,7 @@ import com.bjz.conturestet.rest.response.ResourceJsonResponse;
 import com.bjz.conturestet.service.api.IFileService;
 import com.bjz.conturestet.service.api.IResourceService;
 import com.bjz.conturestet.service.request.CreateResourceRequest;
+import com.bjz.conturestet.utils.FileSystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,10 +52,10 @@ public class ResourceController {
 
     private CreateResourceRequest mapToRequest(MultipartFile fileRequest) {
         String contentType = fileRequest.getContentType();
-        String originalFilename = fileRequest.getOriginalFilename();
+        String fileName = fileRequest.getName();
 
         return CreateResourceRequest.builder()
-                .setName(originalFilename)
+                .setName(fileName)
                 .setType(Resource.Type.getByMimeType(contentType))
                 .build();
     }

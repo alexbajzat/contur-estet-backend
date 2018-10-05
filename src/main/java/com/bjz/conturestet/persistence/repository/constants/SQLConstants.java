@@ -79,6 +79,13 @@ public class SQLConstants {
                 SQLConstants.DELETE,
                 SQLConstants.FROM,
                 tableName);
+    }
 
+    public static String buildJoin(String table1, String table2, String field1, String field2) {
+        return table1 + JOIN + table2 + ON + buildEqualStatement(field1, field2);
+    }
+
+    public static String buildJoin(String table2, String field1, String field2) {
+        return JOIN + table2 + ON + buildEqualStatement(field1, field2);
     }
 }

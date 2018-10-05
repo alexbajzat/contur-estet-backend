@@ -1,6 +1,9 @@
 package com.bjz.conturestet.rest.response;
 
+import com.bjz.conturestet.persistence.model.Resource;
+
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,6 +13,7 @@ public class TopicJsonResponseBuilder {
     private Integer id;
     private String name;
     private CategoryJsonResponse category;
+    private List<ResourceJsonResponse> resources;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
@@ -23,7 +27,7 @@ public class TopicJsonResponseBuilder {
         Objects.requireNonNull(createdOn);
         Objects.requireNonNull(updatedOn);
 
-        return new TopicJsonResponse(id, name, category, createdOn, updatedOn);
+        return new TopicJsonResponse(id, name, category, resources, createdOn, updatedOn);
     }
 
     public TopicJsonResponseBuilder setId(Integer id) {
@@ -48,6 +52,11 @@ public class TopicJsonResponseBuilder {
 
     public TopicJsonResponseBuilder setUpdatedOn(LocalDateTime updatedOn) {
         this.updatedOn = updatedOn;
+        return this;
+    }
+
+    public TopicJsonResponseBuilder setResources(List<ResourceJsonResponse> resources) {
+        this.resources = resources;
         return this;
     }
 }

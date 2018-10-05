@@ -5,9 +5,11 @@ import com.bjz.conturestet.exception.SQLException;
 import com.bjz.conturestet.persistence.model.Resource;
 import com.bjz.conturestet.persistence.repository.api.ResourceRepository;
 import com.bjz.conturestet.persistence.repository.constants.ResourceSQLConstants;
+import com.bjz.conturestet.persistence.repository.constants.TopicSQLConstants;
 import com.bjz.conturestet.persistence.repository.mapper.ResourceMapper;
 import com.bjz.conturestet.persistence.repository.query.ResourceSQLQueryBuilder;
 import com.bjz.conturestet.persistence.repository.query.SQLQuery;
+import com.bjz.conturestet.persistence.repository.query.TopicResourceSQLQueryBuilder;
 import com.bjz.conturestet.service.request.CreateResourceRequest;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 /**
  * Brought to life by bjz on 10/4/2018.
@@ -46,6 +49,30 @@ public class ResourceRepositorySQL extends BaseRepository implements ResourceRep
                     .findFirst()
                     .orElseThrow(() -> new NotFoundException(
                             String.format("Can't find resource for id %d", id)));
+        });
+    }
+
+    @Override
+    public CompletableFuture<Stream<Resource>> findResources(List<Integer> ids) {
+        return CompletableFuture.supplyAsync(() -> {
+            SQLQuery selectQuery = ResourceSQLQueryBuilder.buildSelectByField(ResourceSQLConstants.ID_FIELD, ids);
+
+            List<Resource> resources = namedJdbcTemplate.query(
+                    selectQuery.getQuery(),
+                    selectQuery.getNamedParams(),
+                    new ResourceMapper());
+
+            return resources.stream();
+        });
+    }
+
+    @Override
+    public CompletableFuture<Stream<Resource>> findResourcesByTopic(Integer topicID) {
+        return CompletableFuture.supplyAsync(() -> {
+            SQLQuery selectQuery = TopicResourceSQLQueryBuilder.buildSelectByField(TopicSQLConstants.ID_FIELD, topicID);
+
+            return namedJdbcTemplate.query(selectQuery.getQuery(), selectQuery.getNamedParams(), new ResourceMapper())
+                    .stream();
         });
     }
 }

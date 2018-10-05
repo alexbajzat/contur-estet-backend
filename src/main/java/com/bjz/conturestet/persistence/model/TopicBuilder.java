@@ -1,6 +1,7 @@
 package com.bjz.conturestet.persistence.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,6 +11,7 @@ public class TopicBuilder {
     private Integer id;
     private String name;
     private Category category;
+    private List<Resource> resources;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
@@ -23,7 +25,7 @@ public class TopicBuilder {
         Objects.requireNonNull(createdOn);
         Objects.requireNonNull(updatedOn);
 
-        return new Topic(id, name, category, createdOn, updatedOn);
+        return new Topic(id, name, category, resources, createdOn, updatedOn);
     }
 
     public TopicBuilder setId(Integer id) {
@@ -48,6 +50,11 @@ public class TopicBuilder {
 
     public TopicBuilder setUpdatedOn(LocalDateTime updatedOn) {
         this.updatedOn = updatedOn;
+        return this;
+    }
+
+    public TopicBuilder setResources(List<Resource> resources) {
+        this.resources = resources;
         return this;
     }
 }

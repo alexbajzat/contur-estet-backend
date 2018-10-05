@@ -19,6 +19,7 @@ public class ResourceMapper implements RowMapper<Resource> {
                 .setId(resultSet.getInt(ResourceSQLConstants.ID_FIELD))
                 .setName(resultSet.getString(ResourceSQLConstants.NAME_FIELD))
                 .setExtension(Resource.Type.getByExtension(resultSet.getString(ResourceSQLConstants.EXTENSION_FIELD)))
+                .setEndpoint(resultSet.getString(ResourceSQLConstants.ENDPOINT_FIELD))
                 .setCreatedOn(resultSet.getTimestamp(ResourceSQLConstants.CREATED_ON_FIELD).toLocalDateTime())
                 .setUpdatedOn(resultSet.getTimestamp(ResourceSQLConstants.UPDATED_ON_FIELD).toLocalDateTime())
                 .build();

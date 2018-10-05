@@ -9,7 +9,7 @@ import java.util.Objects;
 public class ResourceBuilder {
     private Integer id;
     private String name;
-    private String url;
+    private String endpoint;
     private Resource.Type extension;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
@@ -24,7 +24,7 @@ public class ResourceBuilder {
         Objects.requireNonNull(createdOn);
         Objects.requireNonNull(updatedOn);
 
-        return new Resource(id, name, extension, url, createdOn, updatedOn);
+        return new Resource(id, name, extension, endpoint, createdOn, updatedOn);
     }
 
     public ResourceBuilder setId(Integer id) {
@@ -42,8 +42,8 @@ public class ResourceBuilder {
         return this;
     }
 
-    public ResourceBuilder setUrl(String url) {
-        this.url = url;
+    public ResourceBuilder setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
         return this;
     }
 

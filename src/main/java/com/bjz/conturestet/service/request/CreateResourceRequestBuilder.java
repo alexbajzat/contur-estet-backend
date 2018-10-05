@@ -10,6 +10,7 @@ import java.util.Objects;
 public class CreateResourceRequestBuilder {
     private String name;
     private Resource.Type type;
+    private String endpoint;
 
     CreateResourceRequestBuilder() {
     }
@@ -18,7 +19,7 @@ public class CreateResourceRequestBuilder {
         Objects.requireNonNull(name);
         Objects.requireNonNull(type);
 
-        return new CreateResourceRequest(name, type);
+        return new CreateResourceRequest(name, type, endpoint);
     }
 
     public CreateResourceRequestBuilder setName(String name) {
@@ -28,6 +29,11 @@ public class CreateResourceRequestBuilder {
 
     public CreateResourceRequestBuilder setType(Resource.Type type) {
         this.type = type;
+        return this;
+    }
+
+    public CreateResourceRequestBuilder setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
         return this;
     }
 }

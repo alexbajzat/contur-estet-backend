@@ -4,10 +4,11 @@ import com.bjz.conturestet.exception.InvalidArgumentException;
 import com.bjz.conturestet.persistence.repository.constants.CategorySQLConstants;
 import com.bjz.conturestet.persistence.repository.constants.ResourceSQLConstants;
 import com.bjz.conturestet.persistence.repository.constants.SQLConstants;
-import com.bjz.conturestet.service.request.CreateCategoryRequest;
+import com.bjz.conturestet.persistence.repository.constants.TopicSQLConstants;
 import com.bjz.conturestet.service.request.CreateResourceRequest;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -18,7 +19,8 @@ public class ResourceSQLQueryBuilder {
         String insertQuery = SQLConstants.buildInsertStatement(
                 ResourceSQLConstants.TABLE_NAME,
                 ResourceSQLConstants.NAME_FIELD,
-                ResourceSQLConstants.EXTENSION_FIELD
+                ResourceSQLConstants.EXTENSION_FIELD,
+                ResourceSQLConstants.ENDPOINT_FIELD
         );
 
         SQLQueryBuilder builder = Optional.of(request)
@@ -26,6 +28,8 @@ public class ResourceSQLQueryBuilder {
                         .setQuery(insertQuery)
                         .addNamedParam(ResourceSQLConstants.NAME_FIELD, r.getName())
                         .addNamedParam(ResourceSQLConstants.EXTENSION_FIELD, r.getType().getExtension())
+                        .addNamedParam(ResourceSQLConstants.ENDPOINT_FIELD, r.getEndpoint()
+                                .orElseThrow(() -> new InvalidArgumentException("Endpoint not present")))
                 )
                 .orElseThrow(() -> new InvalidArgumentException("No insert value present"));
 
@@ -58,12 +62,14 @@ public class ResourceSQLQueryBuilder {
                 .build();
     }
 
+
     private static String buildSelect() {
         return SQLConstants.buildSelectStatement(
                 ResourceSQLConstants.TABLE_NAME,
                 ResourceSQLConstants.ID_FIELD,
                 ResourceSQLConstants.NAME_FIELD,
                 ResourceSQLConstants.EXTENSION_FIELD,
+                ResourceSQLConstants.ENDPOINT_FIELD,
                 ResourceSQLConstants.CREATED_ON_FIELD,
                 ResourceSQLConstants.UPDATED_ON_FIELD
         );

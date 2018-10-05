@@ -10,16 +10,16 @@ import java.time.LocalDateTime;
 public class ResourceJsonResponse {
     private final Integer id;
     private final String name;
-    private final String url;
+    private final String endpoint;
     private final Resource.Type type;
     private final LocalDateTime createdOn;
     private final LocalDateTime updatedOn;
 
 
-    ResourceJsonResponse(Integer id, String name, String url, Resource.Type type, LocalDateTime createdOn, LocalDateTime updatedOn) {
+    ResourceJsonResponse(Integer id, String name, String endpoint, Resource.Type type, LocalDateTime createdOn, LocalDateTime updatedOn) {
         this.id = id;
         this.name = name;
-        this.url = url;
+        this.endpoint = endpoint;
         this.type = type;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
@@ -37,8 +37,8 @@ public class ResourceJsonResponse {
         return name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getEndpoint() {
+        return endpoint;
     }
 
     public Resource.Type getType() {

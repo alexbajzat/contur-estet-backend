@@ -5,6 +5,7 @@ import com.bjz.conturestet.service.request.CreateTopicRequest;
 import com.bjz.conturestet.rest.request.CreateTopicJsonRequest;
 import com.bjz.conturestet.rest.response.TopicJsonResponse;
 
+import java.util.Collections;
 import java.util.stream.Stream;
 
 /**
@@ -23,6 +24,8 @@ public class TopicConverter {
                 .setId(topic.getId())
                 .setName(topic.getName())
                 .setCategory(CategoryConverter.mapToJson(topic.getCategory()))
+                .setResources(ResourceConverter.mapToJson(topic.getResources()
+                        .orElse(Collections.emptyList())))
                 .setCreatedOn(topic.getCreatedOn())
                 .setUpdatedOn(topic.getUpdatedOn())
                 .build();

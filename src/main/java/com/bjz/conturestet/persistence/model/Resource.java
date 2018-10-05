@@ -13,13 +13,13 @@ public class Resource extends BaseModel {
     private final Integer id;
     private final String name;
     private final Type type;
-    private final String url;
+    private final String endpoint;
 
 
-    Resource(Integer id, String name, Type type, String url, LocalDateTime createdOn, LocalDateTime updatedOn) {
+    Resource(Integer id, String name, Type type, String endpoint, LocalDateTime createdOn, LocalDateTime updatedOn) {
         super(createdOn, updatedOn);
         this.name = name;
-        this.url = url;
+        this.endpoint = endpoint;
         this.type = type;
         this.id = id;
     }
@@ -40,8 +40,8 @@ public class Resource extends BaseModel {
         return id;
     }
 
-    public Optional<String> getUrl() {
-        return Optional.ofNullable(url);
+    public Optional<String> getEndpoint() {
+        return Optional.ofNullable(endpoint);
     }
 
     public enum Type {

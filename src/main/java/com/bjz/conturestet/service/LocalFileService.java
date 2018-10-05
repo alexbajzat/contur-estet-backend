@@ -1,6 +1,7 @@
 package com.bjz.conturestet.service;
 
 import com.bjz.conturestet.exception.FileSystemIOException;
+import com.bjz.conturestet.exception.NotFoundException;
 import com.bjz.conturestet.persistence.model.Resource;
 import com.bjz.conturestet.service.api.IFileService;
 import com.bjz.conturestet.utils.FileSystemUtils;
@@ -35,10 +36,10 @@ public class LocalFileService implements IFileService {
             @NotNull Resource resource) {
 
         return CompletableFuture.supplyAsync(() -> {
-            String resourceID = buildFileName(resource);
+            String url = resource.getEndpoint().orElseThrow(() -> new NotFoundException("URL not present"));
             String formattedName = FileSystemUtils.buildFilePath(
                     storageURL,
-                    resourceID);
+                    url);
             File file = new File(formattedName);
 
             try {
@@ -51,7 +52,7 @@ public class LocalFileService implements IFileService {
                     .setId(resource.getId())
                     .setName(resource.getName())
                     .setExtension(resource.getType())
-                    .setUrl(resourceID)
+                    .setEndpoint(url)
                     .setCreatedOn(resource.getCreatedOn())
                     .setUpdatedOn(resource.getUpdatedOn())
                     .build();
