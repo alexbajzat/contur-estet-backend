@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -55,13 +57,18 @@ public class TopicService implements ITopicService {
             throw new InvalidArgumentException("Topic ids list can't be empty");
         }
 
-        return topicRepository.findTopics(ids); //TODO
-//                .thenCompose(topics -> topics.map(topic -> resourceService.findResourcesByTopic(topic.getId())
-//                        .thenApply(resources -> addResources(topic, resources.collect(Collectors.toList()))))
-//                        .collect(Collectors.toList()))
-//                .thenApply(futures -> );
-
-
+        List<CompletableFuture<Stream<Resource>>> resourcesFutures =
+                Collections.synchronizedList(new ArrayList<CompletableFuture<Stream<Resource>>>());
+        return topicRepository.findTopics(ids)
+                .thenApply(topics ->
+                        topics.map(topic -> {
+                                    CompletableFuture<Stream<Resource>> resourceFuture = resourceService.findResourcesByTopic(topic.getId());
+                                    resourcesFutures.add(resourceFuture);
+                                    return resourceFuture
+                                            .thenApply(resources -> addResources(topic, resources.collect(Collectors.toList())));
+                                }
+                        )).thenCompose(topics -> CompletableFuture.allOf(resourcesFutures.toArray(new CompletableFuture[0]))
+                        .thenApply(empty -> topics.map(CompletableFuture::join)));
     }
 
     @Override

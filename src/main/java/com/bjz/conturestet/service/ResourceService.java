@@ -35,6 +35,7 @@ public class ResourceService implements IResourceService {
         return resourceRepository.createResource(transformer.transform(resourceRequest));
     }
 
+
     @Override
     public CompletableFuture<Resource> findResource(@NotNull Integer id) {
         Objects.requireNonNull(id);
