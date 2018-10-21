@@ -5,6 +5,8 @@ import com.bjz.conturestet.exception.SQLException;
 import com.bjz.conturestet.persistence.model.Resource;
 import com.bjz.conturestet.persistence.repository.api.ResourceRepository;
 import com.bjz.conturestet.persistence.repository.constants.ResourceSQLConstants;
+import com.bjz.conturestet.persistence.repository.constants.SQLConstants;
+import com.bjz.conturestet.persistence.repository.constants.TopicResourceSQLConstants;
 import com.bjz.conturestet.persistence.repository.constants.TopicSQLConstants;
 import com.bjz.conturestet.persistence.repository.mapper.ResourceMapper;
 import com.bjz.conturestet.persistence.repository.query.ResourceSQLQueryBuilder;
@@ -69,10 +71,26 @@ public class ResourceRepositorySQL extends BaseRepository implements ResourceRep
     @Override
     public CompletableFuture<Stream<Resource>> findResourcesByTopic(Integer topicID) {
         return CompletableFuture.supplyAsync(() -> {
-            SQLQuery selectQuery = TopicResourceSQLQueryBuilder.buildSelectByField(TopicSQLConstants.ID_FIELD, topicID);
+            SQLQuery selectQuery = TopicResourceSQLQueryBuilder.buildSelectByField(TopicResourceSQLConstants.TOPIC_ID_FIELD, topicID);
 
             return namedJdbcTemplate.query(selectQuery.getQuery(), selectQuery.getNamedParams(), new ResourceMapper())
                     .stream();
+        });
+    }
+
+    @Override
+    public CompletableFuture<Void> mapResourceToTopic(Integer topicID, Integer resourceID) {
+        return CompletableFuture.runAsync(() -> {
+            SQLQuery insertQuery = SQLQuery.builder()
+                    .setQuery(SQLConstants.buildInsertStatement(
+                            TopicResourceSQLConstants.TABLE_NAME,
+                            TopicResourceSQLConstants.TOPIC_ID_FIELD,
+                            TopicResourceSQLConstants.RESOURCE_ID_FIELD))
+                    .addNamedParam(TopicResourceSQLConstants.TOPIC_ID_FIELD, topicID)
+                    .addNamedParam(TopicResourceSQLConstants.RESOURCE_ID_FIELD, resourceID)
+                    .build();
+
+            namedJdbcTemplate.update(insertQuery.getQuery(), insertQuery.getNamedParams());
         });
     }
 }

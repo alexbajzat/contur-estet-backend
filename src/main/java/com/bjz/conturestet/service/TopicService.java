@@ -60,20 +60,30 @@ public class TopicService implements ITopicService {
         List<CompletableFuture<Stream<Resource>>> resourcesFutures =
                 Collections.synchronizedList(new ArrayList<CompletableFuture<Stream<Resource>>>());
         return topicRepository.findTopics(ids)
-                .thenApply(topics ->
-                        topics.map(topic -> {
-                                    CompletableFuture<Stream<Resource>> resourceFuture = resourceService.findResourcesByTopic(topic.getId());
-                                    resourcesFutures.add(resourceFuture);
-                                    return resourceFuture
-                                            .thenApply(resources -> addResources(topic, resources.collect(Collectors.toList())));
-                                }
-                        )).thenCompose(topics -> CompletableFuture.allOf(resourcesFutures.toArray(new CompletableFuture[0]))
-                        .thenApply(empty -> topics.map(CompletableFuture::join)));
+                .thenCompose(this::mapResourcesToTopics);
     }
 
     @Override
     public CompletableFuture<Stream<Topic>> findTopics() {
-        return topicRepository.findTopics();
+        List<CompletableFuture<Stream<Resource>>> resourcesFutures =
+                Collections.synchronizedList(new ArrayList<CompletableFuture<Stream<Resource>>>());
+
+        return topicRepository.findTopics()
+                .thenCompose(this::mapResourcesToTopics);
+    }
+
+    private CompletableFuture<Stream<Topic>> mapResourcesToTopics(Stream<Topic> topics) {
+        List<CompletableFuture<Stream<Resource>>> resourcesFutures =
+                Collections.synchronizedList(new ArrayList<CompletableFuture<Stream<Resource>>>());
+
+        return CompletableFuture.supplyAsync(() -> topics.map(topic -> {
+                    CompletableFuture<Stream<Resource>> resourceFuture = resourceService.findResourcesByTopic(topic.getId());
+                    resourcesFutures.add(resourceFuture);
+                    return resourceFuture
+                            .thenApply(resources -> addResources(topic, resources.collect(Collectors.toList())));
+                }
+        )).thenCompose(mappedTopics -> CompletableFuture.allOf(resourcesFutures.toArray(new CompletableFuture[0]))
+                .thenApply(empty -> mappedTopics.map(CompletableFuture::join)));
     }
 
     @Override

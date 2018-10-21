@@ -57,5 +57,13 @@ public class ResourceService implements IResourceService {
         return resourceRepository.findResourcesByTopic(topicID);
     }
 
+    @Override
+    public CompletableFuture<Void> mapTopicResources(Integer topicID, Integer resourceID) {
+        Objects.requireNonNull(topicID);
+        Objects.requireNonNull(resourceID);
+
+        return resourceRepository.mapResourceToTopic(topicID, resourceID);
+    }
+
 
 }

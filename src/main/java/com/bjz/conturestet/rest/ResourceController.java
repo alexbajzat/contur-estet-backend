@@ -37,15 +37,16 @@ public class ResourceController {
     private IFileService fileService;
 
 
-    @RequestMapping(value = "/resource/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/resource/upload/topic", method = RequestMethod.POST)
     public CompletableFuture<ResponseEntity<ResourceJsonResponse>> upload(
             @RequestParam(value = "file") MultipartFile fileRequest,
-            @RequestParam(value = "targetID") Integer id,
-            @RequestParam(value = "targetType") String targetType)
+            @RequestParam(value = "topicID") Integer id)
             throws IOException {
         CreateResourceRequest request = mapToRequest(fileRequest);
         return resourceService.createResource(request)
-                .thenCompose(resource -> this.saveFile(resource, fileRequest))
+                .thenCompose(resource -> this.saveFile(resource, fileRequest)
+                        .thenCompose(saved -> resourceService.mapTopicResources(id, saved.getId()))
+                        .thenApply(empty -> resource))
                 .thenApply(ResourceConverter::mapToJson)
                 .thenApply(json -> new ResponseEntity<>(json, HttpStatus.CREATED));
     }

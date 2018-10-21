@@ -19,4 +19,6 @@ public interface IResourceService {
     CompletableFuture<Stream<Resource>> findResources(List<Integer> ids);
 
     CompletableFuture<Stream<Resource>> findResourcesByTopic(Integer topicID);
+
+    CompletableFuture<Void> mapTopicResources(Integer topicID, Integer resourceID);
 }

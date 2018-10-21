@@ -18,4 +18,6 @@ public interface ResourceRepository {
     CompletableFuture<Stream<Resource>> findResources(List<Integer> ids);
 
     CompletableFuture<Stream<Resource>> findResourcesByTopic(Integer topicID);
+
+    CompletableFuture<Void> mapResourceToTopic(Integer topicID, Integer resourceID);
 }

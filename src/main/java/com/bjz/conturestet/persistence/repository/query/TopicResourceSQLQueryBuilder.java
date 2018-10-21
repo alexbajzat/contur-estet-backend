@@ -40,6 +40,6 @@ public class TopicResourceSQLQueryBuilder {
                         TopicResourceSQLConstants.TOPIC_ID_FIELD,
                         TopicSQLConstants.ID_FIELD
                 ));
-
     }
+
 }
